@@ -83,4 +83,9 @@ class WebTestCase extends SymfonyWebTestCase implements \Serializable
     {
         return substr(md5(uniqid()), 0, $length);
     }
+
+    public function generateRandomNumber($min = 1, $max = 100)
+    {
+        return mt_rand($min, $max);
+    }
 }
