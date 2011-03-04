@@ -15,15 +15,6 @@ class WebTestCase extends SymfonyWebTestCase implements \Serializable
 {
 
     /**
-     * Symfony dependency injection container.
-     *
-     * Provides access to all needed services like the doctrine entity manager.
-     *
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
      * Kernel of the system.
      *
      * @var \Symfony\Component\HttpKernel\Kernel
@@ -41,7 +32,6 @@ class WebTestCase extends SymfonyWebTestCase implements \Serializable
     public function createClient(array $options = array(), array $server = array())
     {
         $client = parent::createClient($options, $server);
-        $this->container = $this->kernel->getContainer();
         return $client;
     }
 
@@ -88,4 +78,13 @@ class WebTestCase extends SymfonyWebTestCase implements \Serializable
     {
         return mt_rand($min, $max);
     }
+
+    public function createEntityManagerMock()
+    {
+        if ($this->kernel == null) {
+            $this->createContainer();
+        }
+        return new EntityManagerMock($this->kernel->getContainer()->get('doctrine.orm.entity_manager'));
+    }
+    
 }
