@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Base class for unit testing.
  */
-class WebTestCase extends SymfonyWebTestCase implements \Serializable
+abstract class WebTestCase extends SymfonyWebTestCase implements \Serializable
 {
 
     /**
