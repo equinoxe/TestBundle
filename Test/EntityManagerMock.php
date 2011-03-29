@@ -48,6 +48,21 @@ class EntityManagerMock
         return in_array($object, $this->flushed);
     }
 
+    public function createQuery($object)
+    {
+        return $this;
+    }
+
+    public function setParameter($object)
+    {
+        return $this;
+    }
+
+    public function getResult()
+    {
+        return null;
+    }
+
     public function flush()
     {
         $this->flushCount++;
