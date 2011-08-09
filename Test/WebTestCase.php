@@ -19,7 +19,7 @@ abstract class WebTestCase extends SymfonyWebTestCase implements \Serializable
      *
      * @var \Symfony\Component\HttpKernel\Kernel
      */
-    protected $kernel;
+    protected static $kernel;
 
     /**
      * Creates and returns a client to simulate http-requests.
@@ -29,7 +29,7 @@ abstract class WebTestCase extends SymfonyWebTestCase implements \Serializable
      * 
      * @return \Symfony\Bundle\FrameworkBundle\Client The client object.
      */
-    public function createClient(array $options = array(), array $server = array())
+    public static function createClient(array $options = array(), array $server = array())
     {
         $client = parent::createClient($options, $server);
         return $client;
@@ -44,9 +44,9 @@ abstract class WebTestCase extends SymfonyWebTestCase implements \Serializable
      */
     public function createContainer(array $options=array())
     {
-        $this->kernel = $this->createKernel($options);
-        $this->kernel->boot();
-        return $this->kernel->getContainer();
+        self::$kernel = $this->createKernel($options);
+        self::$kernel->boot();
+        return self::$kernel->getContainer();
     }
 
     /**
@@ -81,10 +81,10 @@ abstract class WebTestCase extends SymfonyWebTestCase implements \Serializable
 
     public function createEntityManagerMock()
     {
-        if ($this->kernel == null) {
+        if (self::$kernel == null) {
             $this->createContainer();
         }
-        return new EntityManagerMock($this->kernel->getContainer()->get('doctrine.orm.entity_manager'));
+        return new EntityManagerMock(self::$kernel->getContainer()->get('doctrine.orm.entity_manager'));
     }
     
 }
